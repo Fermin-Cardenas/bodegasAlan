@@ -61,7 +61,7 @@ For more information on using the Angular CLI, including detailed command refere
 LOS INTEGRANTES DEL EQUIPO SON: FERMIN CARDENAS CABAL
 SAMUEL ESTRADA CONTRERAS
 MARTIN MORA RAMÍREZ 
-
+CHRISTIAN USCANGA PARRA
 
 
 
