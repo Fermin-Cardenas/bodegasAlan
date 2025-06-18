@@ -1,0 +1,35 @@
+# Global owners - siempre revisar
+* @samuel.sm @christian.qa
+
+# Product requirements y documentación de negocio
+/docs/product-requirements/ @fernando.po @samuel.sm
+/docs/scrum-ceremonies/ @samuel.sm
+
+# Frontend code
+/frontend-web/ @fermin.fe @christian.qa
+/frontend-web/src/app/auth/ @fermin.fe @martin.be
+/frontend-web/src/app/shared/ @fermin.fe
+/frontend-web/package.json @fermin.fe @martin.be
+/frontend-web/angular.json @fermin.fe
+
+# Backend code
+/backend-api/ @martin.be @christian.qa
+/backend-api/src/main/java/security/ @martin.be
+/backend-api/src/main/resources/ @martin.be
+/backend-api/pom.xml @martin.be
+
+# Infrastructure y DevOps
+/infrastructure/ @martin.be
+/docker/ @martin.be
+/.github/workflows/ @martin.be @samuel.sm
+/kubernetes/ @martin.be
+Dockerfile* @martin.be
+docker-compose*.yml @martin.be
+
+# Testing
+/testing/ @christian.qa
+/integration/ @christian.qa
+
+# Configuraciones críticas
+/.github/ @samuel.sm @martin.be
+/scripts/ @martin.be
