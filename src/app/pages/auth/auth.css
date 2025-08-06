@@ -1,0 +1,227 @@
+/* src/app/pages/auth/auth.css */
+
+/* Contenedor principal */
+.login-container {
+  @apply min-h-screen bg-gray-200 flex;
+}
+
+/* Lado izquierdo - Logo */
+.logo-section {
+  @apply hidden lg:flex lg:w-1/2 bg-gray-300 items-center justify-center;
+}
+
+.logo-placeholder {
+  @apply w-80 h-80 bg-white rounded-lg shadow-lg flex items-center justify-center;
+}
+
+/* Lado derecho - Formulario */
+.form-section {
+  @apply w-full lg:w-1/2 flex items-center justify-center p-8;
+}
+
+.form-container {
+  @apply w-full max-w-md;
+}
+
+/* Título */
+.login-title {
+  @apply text-center mb-8;
+}
+
+.login-title h1 {
+  @apply text-3xl font-bold text-gray-800 mb-2;
+}
+
+/* Formulario */
+.login-form {
+  @apply space-y-6;
+}
+
+/* Campos de entrada */
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-600 mb-2;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
+}
+
+.form-input.error {
+  @apply border-red-500;
+}
+
+.form-input:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-opacity-50;
+}
+
+/* Campo de contraseña */
+.password-field {
+  @apply relative;
+}
+
+.password-toggle {
+  @apply absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200;
+}
+
+/* Mensajes de error */
+.error-message {
+  @apply mt-1 text-sm text-red-600;
+}
+
+.global-error {
+  @apply bg-red-50 border border-red-200 rounded-md p-3;
+}
+
+/* Texto de ayuda */
+.help-text {
+  @apply mt-1 text-xs text-gray-500;
+}
+
+/* Controles de recordar/olvidé */
+.form-controls {
+  @apply flex items-center justify-between;
+}
+
+.remember-me {
+  @apply flex items-center;
+}
+
+.remember-checkbox {
+  @apply h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500;
+}
+
+.remember-label {
+  @apply ml-2 text-sm text-gray-600;
+}
+
+.forgot-link {
+  @apply text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200;
+}
+
+/* Botón principal */
+.submit-button {
+  @apply w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 font-medium;
+}
+
+.submit-button:hover:not(:disabled) {
+  @apply bg-blue-700 transform translate-y-[-1px] shadow-lg;
+}
+
+.submit-button:active {
+  @apply transform translate-y-0;
+}
+
+/* Spinner de carga */
+.loading-spinner {
+  @apply w-5 h-5 animate-spin;
+}
+
+/* Link de registro */
+.register-link {
+  @apply text-center;
+}
+
+.register-button {
+  @apply text-blue-600 hover:text-blue-800 transition-colors duration-200;
+}
+
+/* Sección de demo */
+.demo-section {
+  @apply mt-6 pt-6 border-t border-gray-200;
+}
+
+.demo-button {
+  @apply w-full bg-gray-100 text-gray-600 py-2 px-4 rounded-md hover:bg-gray-200 transition-colors duration-200 text-sm;
+}
+
+.demo-credentials {
+  @apply mt-2 text-xs text-gray-500 text-center;
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Efectos hover y focus mejorados */
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.submit-button {
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.submit-button:hover:not(:disabled) {
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Estados responsivos */
+@media (max-width: 1024px) {
+  .logo-section {
+    display: none;
+  }
+  
+  .form-section {
+    @apply w-full;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-section {
+    @apply p-4;
+  }
+  
+  .login-title h1 {
+    @apply text-2xl;
+  }
+  
+  .form-input {
+    @apply py-2 text-base;
+  }
+}
+
+/* Estados de validación mejorados */
+.form-input.valid {
+  @apply border-green-300 focus:ring-green-500 focus:border-green-500;
+}
+
+.form-input.invalid {
+  @apply border-red-300 focus:ring-red-500 focus:border-red-500;
+}
+
+/* Mejoras de accesibilidad */
+.form-input:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+.submit-button:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Transiciones suaves */
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilos específicos para el componente Auth */
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}

@@ -1,0 +1,545 @@
+<!-- finance.html -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <!-- Header -->
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-4 sm:mb-0">Finanzas</h2>
+      
+      <!-- Navegación por pestañas -->
+      <div class="flex gap-2">
+        <button
+          (click)="setActiveTab('dashboard')"
+          [ngClass]="activeTab === 'dashboard' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+          class="px-4 py-2 rounded-md text-sm font-medium transition-colors">
+          Dashboard
+        </button>
+        <button
+          (click)="setActiveTab('transactions')"
+          [ngClass]="activeTab === 'transactions' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+          class="px-4 py-2 rounded-md text-sm font-medium transition-colors">
+          Transacciones
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Tab -->
+  <div *ngIf="activeTab === 'dashboard'" class="p-6">
+    <!-- Resumen Financiero -->
+    <div *ngIf="financialSummary$ | async as summary" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-lg border border-gray-300">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">Rentas Mensuales</p>
+            <p class="text-2xl font-bold text-gray-900">{{formatCurrency(summary.totalRevenue)}}</p>
+          </div>
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-gray-100 to-gray-200 p-6 rounded-lg border border-gray-400">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-700 mb-1">Gastos Operativos</p>
+            <p class="text-2xl font-bold text-gray-900">{{formatCurrency(summary.totalExpenses)}}</p>
+          </div>
+          <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-gray-200 to-gray-300 p-6 rounded-lg border border-gray-500">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-700 mb-1">Ganancia Neta</p>
+            <p class="text-2xl font-bold text-gray-900">{{formatCurrency(summary.netProfit)}}</p>
+          </div>
+          <div class="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-gray-300 to-gray-400 p-6 rounded-lg border border-gray-600">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-800 mb-1">Crecimiento</p>
+            <p class="text-2xl font-bold text-gray-900">{{formatGrowth(summary.growth)}}</p>
+          </div>
+          <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top 5 mejores usuarios -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="bg-gray-50 rounded-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-semibold text-gray-900">Top 5 mejores usuarios</h3>
+          <div class="text-center">
+            <p class="text-sm text-gray-500">Total</p>
+            <p class="text-2xl font-bold text-gray-900" *ngIf="totalRevenue$ | async as total">
+              {{formatCurrency(total)}}
+            </p>
+          </div>
+        </div>
+
+        <!-- Gráfico circular representativo -->
+        <div class="flex justify-center mb-6">
+          <div class="relative w-32 h-32">
+            <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
+              <path class="text-gray-300" stroke="currentColor" stroke-width="3" fill="none" 
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="text-gray-600" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="75, 100"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <p class="text-xs text-gray-500">Total</p>
+                <p class="text-sm font-bold text-gray-900" *ngIf="totalRevenue$ | async as total">
+                  {{formatCurrency(total)}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de usuarios -->
+        <div class="space-y-4" *ngIf="topUsers$ | async as users">
+          <div *ngFor="let user of users; trackBy: trackByUserId" 
+               class="flex items-center justify-between py-3 border-l-4 pl-4"
+               [ngStyle]="{'border-left-color': user.position <= 3 ? '#374151' : '#9CA3AF'}">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-gray-500 bg-gray-200 px-2 py-1 rounded">
+                  {{getTopUserPosition(user.position)}}
+                </span>
+                <p class="font-medium text-gray-900">{{user.name}}</p>
+              </div>
+              <p class="text-sm text-gray-500">{{user.percentage.toFixed(1)}}% del total</p>
+            </div>
+            <div class="text-right">
+              <p class="font-semibold text-gray-900">{{formatCurrency(user.revenue)}}</p>
+              <span [ngClass]="getGrowthBadgeClass(user.growth)" class="text-xs">
+                {{formatGrowth(user.growth)}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gastos operativos por categoría -->
+      <div class="bg-gray-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-6">Gastos Operativos por Categoría</h3>
+        
+        <div class="space-y-4" *ngIf="categoryExpenses$ | async as expenses">
+          <div *ngFor="let expense of expenses" class="flex items-center justify-between">
+            <div class="flex items-center gap-3 flex-1">
+              <div class="w-4 h-4 rounded-full" [ngStyle]="{'background-color': expense.color}"></div>
+              <div class="flex-1">
+                <p class="font-medium text-gray-900">{{expense.category}}</p>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div class="h-2 rounded-full" 
+                       [ngStyle]="{'background-color': expense.color, 'width.%': expense.percentage}"></div>
+                </div>
+              </div>
+            </div>
+            <div class="text-right ml-4">
+              <p class="font-semibold text-gray-900">{{formatCurrency(expense.amount)}}</p>
+              <p class="text-sm text-gray-500">{{expense.percentage.toFixed(1)}}%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transactions Tab -->
+  <div *ngIf="activeTab === 'transactions'">
+    <!-- Header de transacciones -->
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <!-- Búsqueda -->
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" 
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input
+            type="text"
+            placeholder="Buscar transacciones..."
+            class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+            (input)="onSearchChange($any($event.target).value)"
+            [value]="searchTerm$ | async">
+        </div>
+        
+        <!-- Botón eliminar seleccionados -->
+        <button
+          *ngIf="selectedTransactions && selectedTransactions.size > 0"
+          (click)="onDeleteSelected()"
+          [disabled]="isLoading"
+          class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="m19 7-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          Eliminar ({{selectedTransactions.size}})
+        </button>
+        
+        <!-- Botón nueva transacción -->
+        <button
+          (click)="openCreateModal()"
+          class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Nueva Transacción
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla de transacciones -->
+    <div class="overflow-x-auto">
+      <ng-container *ngIf="paginatedTransactions$ | async as transactions">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="w-12 px-6 py-3 text-left">
+                <input
+                  type="checkbox"
+                  class="rounded border-gray-300 text-gray-600 focus:ring-gray-500"
+                  [checked]="transactions && transactions.length > 0 && areAllSelected(transactions)"
+                  (change)="onSelectAll(transactions)"
+                  [disabled]="!transactions || transactions.length === 0">
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Fecha
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Descripción
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Categoría
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Monto
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Usuario/Almacén
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Estado
+              </th>
+              <th class="w-12 px-6 py-3"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let transaction of transactions; trackBy: trackByTransactionId" 
+                class="hover:bg-gray-50">
+              <td class="px-6 py-4">
+                <input
+                  type="checkbox"
+                  class="rounded border-gray-300 text-gray-600 focus:ring-gray-500"
+                  [checked]="transaction?.id && isTransactionSelected(transaction.id)"
+                  (change)="transaction?.id && onSelectTransaction(transaction.id)">
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{formatDate(transaction?.date || '')}}</div>
+                <div class="text-sm text-gray-500">{{transaction?.reference || 'N/A'}}</div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="text-sm font-medium text-gray-900 max-w-xs truncate">
+                  {{transaction?.description || 'N/A'}}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [ngClass]="transaction?.category ? getCategoryBadgeClass(transaction.category) : 'px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800'">
+                  {{transaction?.category || 'N/A'}}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium" [ngClass]="getAmountColorClass(transaction?.amount || 0)">
+                  {{formatAmount(transaction?.amount || 0)}}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{transaction?.user || 'N/A'}}</div>
+                <div class="text-sm text-gray-500">{{transaction?.warehouse || 'N/A'}}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [ngClass]="transaction?.status ? getStatusBadgeClass(transaction.status) : 'px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800'">
+                  {{transaction?.status || 'N/A'}}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center gap-2">
+                  <button
+                    *ngIf="transaction?.id"
+                    (click)="openEditModal(transaction)"
+                    class="text-gray-600 hover:text-gray-900"
+                    title="Editar">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- Estado vacío -->
+        <div *ngIf="!transactions || transactions.length === 0" class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+          <p class="mt-2 text-gray-500">No se encontraron transacciones</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Paginación -->
+    <div *ngIf="(paginationData$ | async) as pagination" 
+         class="bg-white px-6 py-4 border-t border-gray-200">
+      <div *ngIf="pagination?.totalPages && pagination.totalPages > 1" 
+           class="flex items-center justify-between">
+        <div class="flex-1 flex justify-center">
+          <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+            <!-- Botón anterior -->
+            <button
+              (click)="onPageChange(pagination.currentPage - 1)"
+              [disabled]="pagination.currentPage === 1"
+              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+              <span class="sr-only">Anterior</span>
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            
+            <!-- Números de página -->
+            <ng-container *ngFor="let page of getPaginationPages(pagination.totalPages); let i = index">
+              <button
+                (click)="onPageChange(i + 1)"
+                [ngClass]="{
+                  'z-10 bg-gray-50 border-gray-500 text-gray-600': pagination.currentPage === i + 1,
+                  'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': pagination.currentPage !== i + 1
+                }"
+                class="relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                {{i + 1}}
+              </button>
+            </ng-container>
+            
+            <!-- Botón siguiente -->
+            <button
+              (click)="onPageChange(pagination.currentPage + 1)"
+              [disabled]="pagination.currentPage === pagination.totalPages"
+              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+              <span class="sr-only">Siguiente</span>
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"></path>
+              </svg>
+            </button>
+          </nav>
+        </div>
+        <div class="text-sm text-gray-700">
+          Página {{pagination.currentPage || 1}} de {{pagination.totalPages || 1}} 
+          ({{pagination.totalItems || 0}} transacciones)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Crear/Editar Transacción -->
+<div *ngIf="showModal" 
+     class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+     (click)="onModalBackdropClick($event)">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
+       (click)="$event.stopPropagation()">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-medium text-gray-900">
+        {{editingTransaction ? 'Editar Transacción' : 'Nueva Transacción'}}
+      </h3>
+      <button
+        (click)="closeModal()"
+        class="text-gray-400 hover:text-gray-600"
+        type="button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" *ngIf="transactionForm">
+      <!-- Fecha y Referencia en la misma fila -->
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <div>
+          <label for="date" class="block text-sm font-medium text-gray-700 mb-1">
+            Fecha *
+          </label>
+          <input
+            id="date"
+            type="date"
+            formControlName="date"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+            [class.border-red-500]="getFormFieldError('date')">
+          <div *ngIf="getFormFieldError('date')" class="mt-1 text-sm text-red-600">
+            {{getFormFieldError('date')}}
+          </div>
+        </div>
+        
+        <div>
+          <label for="reference" class="block text-sm font-medium text-gray-700 mb-1">
+            Referencia *
+          </label>
+          <input
+            id="reference"
+            type="text"
+            formControlName="reference"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+            [class.border-red-500]="getFormFieldError('reference')"
+            placeholder="RENT-2024-001, MANT-2024-001">
+          <div *ngIf="getFormFieldError('reference')" class="mt-1 text-sm text-red-600">
+            {{getFormFieldError('reference')}}
+          </div>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+          Descripción *
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="3"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+          [class.border-red-500]="getFormFieldError('description')"
+          placeholder="Ej: Renta mensual almacén A1, Mantenimiento general"></textarea>
+        <div *ngIf="getFormFieldError('description')" class="mt-1 text-sm text-red-600">
+          {{getFormFieldError('description')}}
+        </div>
+      </div>
+
+      <!-- Categoría y Estado en la misma fila -->
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <div>
+          <label for="category" class="block text-sm font-medium text-gray-700 mb-1">
+            Categoría *
+          </label>
+          <select
+            id="category"
+            formControlName="category"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500">
+            <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+            Estado *
+          </label>
+          <select
+            id="status"
+            formControlName="status"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500">
+            <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Monto -->
+      <div class="mb-4">
+        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">
+          Monto *
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 sm:text-sm">$</span>
+          </div>
+          <input
+            id="amount"
+            type="number"
+            step="0.01"
+            formControlName="amount"
+            class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+            [class.border-red-500]="getFormFieldError('amount')"
+            placeholder="0.00">
+        </div>
+        <p class="mt-1 text-xs text-gray-500">Rentas: números positivos (35000). Gastos: números negativos (-3500)</p>
+        <div *ngIf="getFormFieldError('amount')" class="mt-1 text-sm text-red-600">
+          {{getFormFieldError('amount')}}
+        </div>
+      </div>
+
+      <!-- Usuario y Almacén en la misma fila -->
+      <div class="mb-6 grid grid-cols-2 gap-4">
+        <div>
+          <label for="user" class="block text-sm font-medium text-gray-700 mb-1">
+            Usuario *
+          </label>
+          <select
+            id="user"
+            formControlName="user"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500"
+            [class.border-red-500]="getFormFieldError('user')">
+            <option value="">Seleccionar usuario</option>
+            <option *ngFor="let user of users" [value]="user">{{user}}</option>
+          </select>
+          <div *ngIf="getFormFieldError('user')" class="mt-1 text-sm text-red-600">
+            {{getFormFieldError('user')}}
+          </div>
+        </div>
+        
+        <div>
+          <label for="warehouse" class="block text-sm font-medium text-gray-700 mb-1">
+            Almacén *
+          </label>
+          <select
+            id="warehouse"
+            formControlName="warehouse"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500">
+            <option *ngFor="let warehouse of warehouses" [value]="warehouse">{{warehouse}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex gap-3">
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="!transactionForm || transactionForm.invalid || isSubmitting"
+          class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-gray-500">
+          <svg *ngIf="isSubmitting" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{editingTransaction ? 'Actualizar' : 'Crear'}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
