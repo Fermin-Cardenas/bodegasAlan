@@ -17,7 +17,7 @@ export class App {
     // Detectar cambios de ruta
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isLoginRoute = event.url === '/login';
+        this.isLoginRoute = event.url === '/';
       }
     });
   }
