@@ -1,58 +1,124 @@
-# BodegasAlan
+# 🏢 Bodegas Alan – Gestión de Bodegas y Subastas
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+<img src="imagenes/Dashboard.png" width="100%" alt="Dashboard Bodegas Alan" style="border-radius:16px;box-shadow:0 2px 16px #0001;"/>
 
-## Development server
+## 🚀 Descripción General
 
-To start a local development server, run:
+**Bodegas Alan** es una aplicación web moderna para la gestión de bodegas, empleados, finanzas y subastas, con funcionalidades específicas para cada sucursal (Córdoba y Orizaba).
 
-```bash
-ng serve
-```
+Incluye:
+- Control centralizado de empleados, almacenes y usuarios
+- Gestión financiera y panel de control en tiempo real
+- Administración de múltiples sucursales
+- Seguridad y experiencia de usuario premium
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🖼️ Módulos principales
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+<table>
+  <tr>
+    <td align="center"><b>Login</b></td>
+    <td align="center"><b>Dashboard</b></td>
+    <td align="center"><b>Empleados</b></td>
+  </tr>
+  <tr>
+    <td><img src="login.png" alt="Login" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="Dashboard.png" alt="Dashboard" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="Empleados.png" alt="Empleados" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Almacenes</b></td>
+    <td align="center"><b>Finanzas</b></td>
+    <td align="center"><b>Usuarios</b></td>
+  </tr>
+  <tr>
+    <td><img src="Almacenes.png" alt="Almacenes" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="Finanzas.png" alt="Finanzas" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="Usuarios.png" alt="Usuarios" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="3"><b>Sucursales</b></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><img src="Sucursales.png" alt="Sucursales" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+  </tr>
+</table>
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## ✨ Características
 
-```bash
-ng generate --help
-```
+- 🔐 **Sistema de login seguro y validación por roles**
+- 📊 **Dashboard con KPIs, gráficas y accesos rápidos**
+- 👷‍♂️ **Gestión de empleados por sucursal**
+- 🏪 **Control de almacenes y unidades disponibles**
+- 💰 **Módulo financiero con control de ingresos y egresos**
+- 👥 **Gestión de usuarios y permisos**
+- 🏢 **Administración de sucursales**
+- 💡 **UI moderna y responsiva con Tailwind CSS y Angular**
 
-## Building
+---
 
-To build the project run:
+## 🛠️ Tecnologías
 
-```bash
-ng build
-```
+- [Angular 16+](https://angular.io/)
+- [Tailwind CSS 3+](https://tailwindcss.com/)
+- HTML5 + CSS3
+- TypeScript
+- [SweetAlert2](https://sweetalert2.github.io/)
+- [Heroicons](https://heroicons.com/)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## ⚙️ Requisitos previos
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Node.js 18+ y npm
+- Angular CLI (`npm install -g @angular/cli`)
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## 🚩 Pasos para ejecutar el proyecto
 
-For end-to-end (e2e) testing, run:
+1. **Clona este repositorio:**
+    ```bash
+    git clone https://github.com/tuusuario/BodegasAlan.git
+    cd BodegasAlan
+    ```
 
-```bash
-ng e2e
-```
+2. **Instala dependencias:**
+    ```bash
+    npm install
+    ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+3. **Ejecuta la aplicación:**
+    ```bash
+    ng serve --open
+    ```
+    La aplicación se abrirá automáticamente en [http://localhost:4200](http://localhost:4200).
+
+---
+
+## 📝 Versiones
+
+- **v1.0.0**  
+  - Login funcional, dashboard interactivo  
+  - Módulos completos de empleados, almacenes, finanzas, usuarios y sucursales  
+  - UI 100% responsiva con Tailwind
+
+---
+
+## 💡 Autor
+
+- Fermin Cárdenas | [GitHub](https://github.com/Fermin-Cardenas)
+
+---
+
+## 📬 ¿Preguntas? ¿Comentarios?
+
+¡Contáctame por GitHub o abre un issue en el repositorio!  
+**Bodegas Alan** – El futuro del almacenamiento inteligente en Veracruz.
+
 
 ## Additional Resources
 
