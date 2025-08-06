@@ -1,0 +1,318 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <h1 class="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+  
+  <!-- Estadísticas principales de Warehouses - TONOS GRISES -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    
+    <!-- Total de Almacenes -->
+    <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm text-gray-500 mb-1">Total Almacenes</div>
+          <div class="text-2xl font-bold text-gray-800 animate-pulse">{{ warehouseStats.total }}</div>
+          <div class="text-xs text-gray-600 mt-1">4 zonas activas</div>
+        </div>
+        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Almacenes Ocupados -->
+    <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm text-gray-500 mb-1">Almacenes Ocupados</div>
+          <div class="text-2xl font-bold text-gray-800 animate-pulse">{{ warehouseStats.occupied }}</div>
+          <div class="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded inline-block mt-1">
+            {{ getOccupiedPercentage() }}% del total
+          </div>
+        </div>
+        <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Capacidad Total -->
+    <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm text-gray-500 mb-1">Capacidad Total</div>
+          <div class="text-2xl font-bold text-gray-800 animate-pulse">{{ formatCapacity(warehouseStats.totalCapacity) }}</div>
+          <div class="text-xs text-gray-600 mt-1">{{ formatCapacity(warehouseStats.totalCurrentStock) }} ocupadas</div>
+        </div>
+        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Almacenes Disponibles -->
+    <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm text-gray-500 mb-1">Almacenes Disponibles</div>
+          <div class="text-2xl font-bold text-gray-800 animate-pulse">{{ warehouseStats.available }}</div>
+          <div class="text-xs text-gray-600 mt-1">{{ warehouseStats.auction }} en subasta</div>
+        </div>
+        <div class="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!-- Segunda fila - Secciones principales -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+  <!-- Capacidad General (SECCIÓN FUNCIONAL) -->
+  <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">Capacidad General</h3>
+      <div class="flex items-center space-x-2">
+        <span class="text-xs px-2 py-1 rounded-full" 
+              [ngClass]="getCapacityStatusColor()" 
+              [class]="'bg-gray-100 ' + getCapacityStatusColor()">
+          {{ getCapacityStatusText() }}
+        </span>
+        <span class="text-xs" [ngClass]="getTrendColor()">
+          {{ capacityDetails.trend }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Leyenda -->
+    <div class="flex items-center mb-4 flex-wrap gap-4">
+      <div class="flex items-center">
+        <div class="w-3 h-3 bg-gray-600 rounded-full mr-2"></div>
+        <span class="text-sm text-gray-600">Ocupado</span>
+        <span class="text-xs text-gray-500 ml-1">({{ formatCapacity(capacityDetails.currentStock) }})</span>
+      </div>
+      <div class="flex items-center">
+        <div class="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
+        <span class="text-sm text-gray-600">Disponible</span>
+        <span class="text-xs text-gray-500 ml-1">({{ formatCapacity(capacityDetails.availableCapacity) }})</span>
+      </div>
+    </div>
+
+    <!-- Círculo de capacidad -->
+    <div class="relative w-48 h-48 mx-auto">
+      <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+        <!-- Círculo base (gris claro) -->
+        <circle cx="50" cy="50" r="40" stroke="#e5e7eb" stroke-width="8" fill="none"></circle>
+        <!-- Círculo de progreso (gris oscuro) -->
+        <circle cx="50" cy="50" r="40" stroke="#6b7280" stroke-width="8" fill="none" 
+                stroke-dasharray="251.2" 
+                [attr.stroke-dashoffset]="251.2 - (251.2 * capacityPercentage / 100)"
+                stroke-linecap="round" 
+                class="transition-all duration-1000 ease-out"></circle>
+      </svg>
+      
+      <!-- Contenido central -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center">
+        <span class="text-3xl font-bold text-gray-800">{{ capacityPercentage }}%</span>
+        <span class="text-xs text-gray-500 mt-1">ocupación</span>
+      </div>
+    </div>
+
+    <!-- Detalles adicionales -->
+    <div class="mt-6 grid grid-cols-2 gap-4 text-center">
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="text-lg font-semibold text-gray-800">
+          {{ formatCapacity(capacityDetails.totalCapacity) }}
+        </div>
+        <div class="text-xs text-gray-500">Capacidad Total</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3">
+        <div class="text-lg font-semibold text-gray-800">
+          {{ warehouseStats.total }}
+        </div>
+        <div class="text-xs text-gray-500">Almacenes</div>
+      </div>
+    </div>
+
+    <!-- Información por estado -->
+    <div class="mt-4 space-y-2">
+      <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center">
+          <div class="w-2 h-2 bg-gray-600 rounded-full mr-2"></div>
+          <span class="text-gray-600">Almacenes ocupados</span>
+        </div>
+        <span class="font-medium text-gray-800">{{ warehouseStats.occupied }}</span>
+      </div>
+      
+      <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center">
+          <div class="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
+          <span class="text-gray-600">Almacenes disponibles</span>
+        </div>
+        <span class="font-medium text-gray-800">{{ warehouseStats.available }}</span>
+      </div>
+      
+      <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center">
+          <div class="w-2 h-2 bg-black rounded-full mr-2"></div>
+          <span class="text-gray-600">En subasta</span>
+        </div>
+        <span class="font-medium text-gray-800">{{ warehouseStats.auction }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Almacenes - Córdoba (SECCIÓN FUNCIONAL) -->
+  <div class="bg-white rounded-lg shadow-sm p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-md">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-800">Almacenes - Córdoba</h3>
+      <div class="text-sm text-gray-600">
+        {{warehouseStats.total}} almacenes • {{warehouseStats.occupancyRate}}% ocupación
+      </div>
+    </div>
+    
+    <!-- Leyenda con contadores -->
+    <div class="flex items-center mb-4 flex-wrap gap-4">
+      <div class="flex items-center">
+        <div class="w-3 h-3 bg-gray-600 rounded-full mr-2"></div>
+        <span class="text-sm text-gray-600">Ocupados</span>
+        <span class="text-xs text-gray-500 ml-1">({{warehouseStats.occupied}})</span>
+      </div>
+      <div class="flex items-center">
+        <div class="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
+        <span class="text-sm text-gray-600">Disponibles</span>
+        <span class="text-xs text-gray-500 ml-1">({{warehouseStats.available}})</span>
+      </div>
+      <div class="flex items-center">
+        <div class="w-3 h-3 bg-black rounded-full mr-2"></div>
+        <span class="text-sm text-gray-600">Próximos a subasta</span>
+        <span class="text-xs text-gray-500 ml-1">({{warehouseStats.auction}})</span>
+      </div>
+    </div>
+
+    <!-- Grid de almacenes CORREGIDO -->
+    <div class="grid grid-cols-8 gap-2 w-full">
+      <!-- Primera fila: A1-A5, B1-B5 (10 elementos) -->
+      <div *ngFor="let storage of storageGrid.slice(0, 10); let i = index"
+           [ngClass]="{
+             'bg-gray-600 text-white': storage.status === 'occupied',
+             'bg-gray-300 text-gray-700': storage.status === 'available', 
+             'bg-black text-white': storage.status === 'auction'
+           }"
+           class="aspect-square rounded-sm flex flex-col items-center justify-center text-xs font-medium transform hover:scale-110 transition-all duration-200 cursor-pointer hover:shadow-lg p-1"
+           [title]="storage.warehouse ? 
+             storage.warehouse.name + ' - ' + storage.warehouse.manager + ' - Ocupación: ' + getCapacityPercentage(storage.warehouse) + '%' : 
+             storage.label"
+           (click)="onStorageClick(storage)">
+        
+        <div class="font-bold text-[10px]">{{ storage.label }}</div>
+        <div *ngIf="storage.warehouse" class="text-[8px] opacity-75 text-center">
+          {{getCapacityPercentage(storage.warehouse)}}%
+        </div>
+      </div>
+      
+      <!-- Espacios vacíos para completar la fila de 8 -->
+      <div class="col-span-6"></div>
+      
+      <!-- Segunda fila: C1-C5, D1-D5 (10 elementos) -->
+      <div *ngFor="let storage of storageGrid.slice(10, 20); let i = index"
+           [ngClass]="{
+             'bg-gray-600 text-white': storage.status === 'occupied',
+             'bg-gray-300 text-gray-700': storage.status === 'available', 
+             'bg-black text-white': storage.status === 'auction'
+           }"
+           class="aspect-square rounded-sm flex flex-col items-center justify-center text-xs font-medium transform hover:scale-110 transition-all duration-200 cursor-pointer hover:shadow-lg p-1"
+           [title]="storage.warehouse ? 
+             storage.warehouse.name + ' - ' + storage.warehouse.manager + ' - Ocupación: ' + getCapacityPercentage(storage.warehouse) + '%' : 
+             storage.label"
+           (click)="onStorageClick(storage)">
+        
+        <div class="font-bold text-[10px]">{{ storage.label }}</div>
+        <div *ngIf="storage.warehouse" class="text-[8px] opacity-75 text-center">
+          {{getCapacityPercentage(storage.warehouse)}}%
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de detalles del almacén -->
+<div *ngIf="showWarehouseModal" 
+     class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+     (click)="onModalBackdropClick($event)">
+  <div class="relative top-20 mx-auto p-6 border w-96 shadow-lg rounded-md bg-white"
+       (click)="$event.stopPropagation()">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-medium text-gray-900">
+        {{ selectedWarehouse?.name }}
+      </h3>
+      <button
+        (click)="closeWarehouseModal()"
+        class="text-gray-400 hover:text-gray-600"
+        type="button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div *ngIf="selectedWarehouse" class="space-y-4">
+      <!-- Información básica -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Código</label>
+          <div class="text-sm font-mono bg-gray-100 px-2 py-1 rounded">{{ selectedWarehouse.code }}</div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Estado</label>
+          <span [ngClass]="getStatusBadgeClass(selectedWarehouse.status)">
+            {{ selectedWarehouse.status }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Capacidad -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Capacidad</label>
+        <div class="flex items-center justify-between text-sm">
+          <span>{{ selectedWarehouse.currentStock }} / {{ selectedWarehouse.capacity }}</span>
+          <span class="font-medium">{{ getCapacityPercentage(selectedWarehouse) }}%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+          <div class="bg-gray-600 h-2 rounded-full" 
+               [style.width.%]="getCapacityPercentage(selectedWarehouse)"></div>
+        </div>
+      </div>
+
+      <!-- Información del encargado -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Encargado</label>
+        <div class="text-sm text-gray-900">{{ selectedWarehouse.manager }}</div>
+        <div class="text-sm text-gray-500">{{ selectedWarehouse.phone }}</div>
+      </div>
+
+      <!-- Dirección -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Dirección</label>
+        <div class="text-sm text-gray-900">{{ selectedWarehouse.address }}</div>
+        <div class="text-sm text-gray-500">{{ selectedWarehouse.city }}</div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end">
+      <button
+        (click)="closeWarehouseModal()"
+        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
