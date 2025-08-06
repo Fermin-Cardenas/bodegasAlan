@@ -41,7 +41,7 @@ Incluye:
     <td align="center" colspan="3"><b>Sucursales</b></td>
   </tr>
   <tr>
-    <td colspan="3" align="center"><img src="Sucursales.png" alt="Sucursales" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td colspan="3" align="center"><img src="imagenes/Sucursales.png" alt="Sucursales" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
   </tr>
 </table>
 
