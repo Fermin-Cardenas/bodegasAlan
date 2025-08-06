@@ -111,7 +111,7 @@ Incluye:
 
 ## 💡 Autor
 
-- Christian Uscanga | [GitHub](https://github.com/ChrisUscanga)
+- Fermin Cárdenas | [GitHub](https://github.com/Fermin-Cardenas)
 
 ---
 
