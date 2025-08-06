@@ -23,9 +23,9 @@ Incluye:
     <td align="center"><b>Empleados</b></td>
   </tr>
   <tr>
-    <td><img src="login.png" alt="Login" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
-    <td><img src="Dashboard.png" alt="Dashboard" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
-    <td><img src="Empleados.png" alt="Empleados" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/login.png" alt="Login" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/Dashboard.png" alt="Dashboard" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/Empleados.png" alt="Empleados" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
   </tr>
   <tr>
     <td align="center"><b>Almacenes</b></td>
@@ -33,9 +33,9 @@ Incluye:
     <td align="center"><b>Usuarios</b></td>
   </tr>
   <tr>
-    <td><img src="Almacenes.png" alt="Almacenes" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
-    <td><img src="Finanzas.png" alt="Finanzas" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
-    <td><img src="Usuarios.png" alt="Usuarios" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/Almacenes.png" alt="Almacenes" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/Finanzas.png" alt="Finanzas" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
+    <td><img src="imagenes/Usuarios.png" alt="Usuarios" width="260" style="border-radius:8px;box-shadow:0 2px 8px #0002;" /></td>
   </tr>
   <tr>
     <td align="center" colspan="3"><b>Sucursales</b></td>
